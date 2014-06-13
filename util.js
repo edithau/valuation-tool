@@ -1,82 +1,3 @@
-/* for IE before 9 */
-if (!Array.prototype.indexOf)
-  {
-
-       Array.prototype.indexOf = function(searchElement /*, fromIndex */)
-
-    {
-
-
-    'use strict';
-
-    if (this === void 0 || this === null)
-      throw new TypeError();
-
-    var t = Object(this);
-    var len = t.length >>> 0;
-    if (len === 0)
-      return -1;
-
-    var n = 0;
-    if (arguments.length > 0)
-    {
-      n = Number(arguments[1]);
-      if (n !== n)
-        n = 0;
-      else if (n !== 0 && n !== (1 / 0) && n !== -(1 / 0))
-        n = (n > 0 || -1) * Math.floor(Math.abs(n));
-    }
-
-    if (n >= len)
-      return -1;
-
-    var k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
-
-    for (; k < len; k++)
-    {
-      if (k in t && t[k] === searchElement)
-        return k;
-    }
-    return -1;
-  };
-}
-
-
-Object.keys = Object.keys || (function() {
-    var hasOwnProperty = Object.prototype.hasOwnProperty,
-        hasDontEnumBug = !{toString: null}.propertyIsEnumerable('toString'),
-        DontEnums = [
-            'toString',
-            'toLocaleString',
-            'valueOf',
-            'hasOwnProperty',
-            'isPrototypeOf',
-            'propertyIsEnumerable',
-            'constructor'
-        ],
-        DontEnumsLength = DontEnums.length;
-
-    return function(o) {
-        if (typeof o != 'object' && typeof o != 'function' || o === null)
-            throw new TypeError('Object.keys called on a non-object');
-
-        var result = [];
-        for (var name in o) {
-            if (hasOwnProperty.call(o, name))
-                result.push(name);
-        }
-
-        if (hasDontEnumBug) {
-            for (var i = 0; i < DontEnumsLength; i++) {
-                if (hasOwnProperty.call(o, DontEnums[i]))
-                    result.push(DontEnums[i]);
-            }
-        }
-
-        return result;
-    };
-})();
-
 
 /* strip off unwanted chars from an input field */
 function sanitize(str) {
@@ -215,7 +136,7 @@ function compareDateStr(dateStr1, dateStr2) {
     return 1;       // dateStr1 is later than dateStr2
 }
 
-
+/* track requested symbols */
 function recordSymbols(symbolStr) {
 	var url = '../portfolio/symbolTracker.php?symbolStr=' + symbolStr;
 		jQuery.getJSON(url, function(data) {
@@ -228,6 +149,10 @@ function recordSymbols(symbolStr) {
 	});
 }
 
+
+/* A warning or error generates a popup message.
+ * An error will return a rejected promise to the caller to signal the fault is unrecoverable.
+ */
 function handleError(e) {
 	var msg, level, symbol;
 	
@@ -263,4 +188,81 @@ function ErrorLog(symbol, level, msg) {
 	this.msg = msg;
 }
 
+/* for IE before 9 */
+if (!Array.prototype.indexOf)
+  {
 
+       Array.prototype.indexOf = function(searchElement /*, fromIndex */)
+
+    {
+
+
+    'use strict';
+
+    if (this === void 0 || this === null)
+      throw new TypeError();
+
+    var t = Object(this);
+    var len = t.length >>> 0;
+    if (len === 0)
+      return -1;
+
+    var n = 0;
+    if (arguments.length > 0)
+    {
+      n = Number(arguments[1]);
+      if (n !== n)
+        n = 0;
+      else if (n !== 0 && n !== (1 / 0) && n !== -(1 / 0))
+        n = (n > 0 || -1) * Math.floor(Math.abs(n));
+    }
+
+    if (n >= len)
+      return -1;
+
+    var k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
+
+    for (; k < len; k++)
+    {
+      if (k in t && t[k] === searchElement)
+        return k;
+    }
+    return -1;
+  };
+}
+
+
+Object.keys = Object.keys || (function() {
+    var hasOwnProperty = Object.prototype.hasOwnProperty,
+        hasDontEnumBug = !{toString: null}.propertyIsEnumerable('toString'),
+        DontEnums = [
+            'toString',
+            'toLocaleString',
+            'valueOf',
+            'hasOwnProperty',
+            'isPrototypeOf',
+            'propertyIsEnumerable',
+            'constructor'
+        ],
+        DontEnumsLength = DontEnums.length;
+
+    return function(o) {
+        if (typeof o != 'object' && typeof o != 'function' || o === null)
+            throw new TypeError('Object.keys called on a non-object');
+
+        var result = [];
+        for (var name in o) {
+            if (hasOwnProperty.call(o, name))
+                result.push(name);
+        }
+
+        if (hasDontEnumBug) {
+            for (var i = 0; i < DontEnumsLength; i++) {
+                if (hasOwnProperty.call(o, DontEnums[i]))
+                    result.push(DontEnums[i]);
+            }
+        }
+
+        return result;
+    };
+})();
